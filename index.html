@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>Emploi Mali — Version de démonstration · Projet n°4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f8; --surface:#ffffff; --surface2:#e9edf4; --ink:#0d1b2e; --muted:#54657c; --line:#d5dce8;
+  --navy:#0a1930; --navy2:#12294d; --gold:#c9a227; --gold-dark:#8a6d0d; --gold-soft:#fdf3d3;
+  --chip:#e6ebf3; --alert:#fdf3d3; --danger:#b3261e; --danger-soft:#fdecea;
+  --shadow:0 14px 34px rgba(10,25,48,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#070f1d; --surface:#0e1c33; --surface2:#16263f; --ink:#edf1f8; --muted:#9fb0c6; --line:#24365a; --chip:#1a2c49; --gold-soft:#2b2410; --alert:#2b2410; --danger-soft:#33161a; --shadow:0 14px 34px rgba(0,0,0,.4); }
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:"Manrope",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:inherit} .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Manrope",sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:11px 18px;font-weight:700;font-size:14px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit}
+.btn-navy{background:var(--navy);color:#fff} .btn-navy:hover{background:var(--navy2)}
+@media (prefers-color-scheme: dark){ .btn-navy{background:var(--gold);color:#141005} .btn-navy:hover{background:#dbb63c} }
+.btn-gold{background:var(--gold);color:#171106} .btn-gold:hover{background:#dbb63c}
+.btn-outline{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-danger{background:transparent;border-color:var(--danger);color:var(--danger)}
+.btn:disabled{opacity:.55;cursor:default}
+/* Bandeau démo */
+.demo-banner{background:var(--navy);color:#f4e9c8;border-bottom:3px solid var(--gold)}
+.demo-banner .wrap{padding-top:12px;padding-bottom:12px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.demo-banner strong{color:var(--gold);white-space:nowrap}
+/* Barre supérieure */
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;border:1px solid var(--gold)}
+.nav{display:flex;gap:18px;font-size:14px;font-weight:600;color:var(--muted)} .nav a{text-decoration:none} .nav a:hover{color:var(--ink)}
+/* Hero */
+.hero{background:var(--navy);color:#eef2fa;margin:18px 0 0;border-radius:22px;padding:34px 28px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;border:34px solid rgba(201,162,39,.22)}
+.hero .kicker{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.hero h1{font-size:clamp(32px,6vw,54px);line-height:1.02;letter-spacing:-.02em;margin:12px 0 12px;max-width:640px;position:relative;z-index:1}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{color:#b9c6da;max-width:620px;margin:0;position:relative;z-index:1}
+.searchbar{margin-top:22px;background:var(--surface);border-radius:16px;padding:10px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr auto;gap:8px;box-shadow:var(--shadow);position:relative;z-index:1}
+.searchbar input,.searchbar select{width:100%;border:0;background:var(--surface2);border-radius:11px;padding:12px;font:inherit;font-size:14px;color:var(--ink);min-width:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:15px 16px}
+.stat b{font-size:23px;display:block;line-height:1.1} .stat span{font-size:13px;color:var(--muted);font-weight:600}
+/* Catalogue */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card.match{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.company{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.demo-tag{font-size:11px;font-weight:800;background:var(--gold-soft);color:var(--gold-dark);border:1px solid var(--gold);padding:3px 8px;border-radius:999px;white-space:nowrap}
+@media (prefers-color-scheme: dark){ .demo-tag{color:#eec95c} }
+.alert-tag{font-size:12px;font-weight:800;background:var(--alert);border:1px solid var(--gold);color:var(--gold-dark);padding:5px 10px;border-radius:999px}
+@media (prefers-color-scheme: dark){ .alert-tag{color:#eec95c} }
+.card h3{margin:0;font-size:19px;line-height:1.25}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:12px;font-weight:700;background:var(--chip);padding:5px 9px;border-radius:999px}
+.card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:12px;flex-wrap:wrap}
+.salary{font-weight:800;font-size:14px;color:var(--navy)}
+@media (prefers-color-scheme: dark){ .salary{color:var(--gold)} }
+/* Sections et panneaux */
+.section{padding:38px 0 6px}
+.section h2{font-size:29px;letter-spacing:-.02em;margin:0 0 8px}
+.section .sub{color:var(--muted);margin:0 0 18px;max-width:700px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.panel h3{margin:0 0 4px;font-size:19px}
+.panel>p{color:var(--muted);font-size:14px;margin:0 0 6px}
+.field{margin-top:10px}
+.field label{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface2);font:inherit;font-size:14px;color:var(--ink)}
+.fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.list li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:14px}
+.list li.empty{color:var(--muted);display:block}
+.status{font-size:12px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--gold-soft);color:var(--gold-dark);border:1px solid var(--gold);white-space:nowrap}
+@media (prefers-color-scheme: dark){ .status{color:#eec95c} }
+.note{font-size:12.5px;color:var(--muted);margin-top:12px}
+/* Boîte de dialogue */
+dialog{border:1px solid var(--line);border-radius:20px;padding:0;max-width:580px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(4,10,22,.55)}
+.dialog-body{padding:24px}
+.dialog-body h4{margin:16px 0 6px}
+.dialog-body ul{color:var(--muted);padding-left:18px;margin:0}
+.dialog-body p{color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--navy);color:#fff;border:1px solid var(--gold);padding:12px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 40px;color:var(--muted);font-size:14px}
+footer strong{color:var(--ink)}
+@media(max-width:860px){
+  .searchbar{grid-template-columns:1fr 1fr} .searchbar .btn{grid-column:1/-1}
+  .grid,.two{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr 1fr}
+  .nav{display:none} .hero{padding:26px 20px} .fieldrow{grid-template-columns:1fr}
+  .demo-banner strong{white-space:normal}
+}
+@media(max-width:480px){ .stats{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" role="note">
+  <div class="wrap"><strong>Version de démonstration</strong><span>Version de démonstration du projet n°4 — les données restent sur cet appareil. La version complète avec comptes et serveur existe séparément.</span></div>
+</div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="logo"><span class="logo-mark">EM</span> Emploi Mali <span style="color:var(--muted);font-weight:600">— Démo</span></div>
+    <nav class="nav"><a href="#offres">Offres</a><a href="#candidat">Espace candidat</a><a href="#recruteur">Espace recruteur</a></nav>
+    <a class="btn btn-gold" href="#offres">Voir les offres</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="kicker">Projet n°4 — IAM Code to Career</div>
+    <h1>Des offres d’emploi au Mali, <em>en démonstration.</em></h1>
+    <p>Catalogue d’offres d’entreprises fictives, espace candidat et espace recruteur — tout fonctionne sur cet appareil, pour présenter le projet en classe. Aucune offre réelle, aucune donnée envoyée à un serveur.</p>
+    <form class="searchbar" id="searchForm">
+      <input id="q" type="search" placeholder="Mot-clé : métier, entreprise…" aria-label="Recherche par mot-clé">
+      <select id="fSecteur" aria-label="Secteur"></select>
+      <select id="fVille" aria-label="Ville"></select>
+      <select id="fType" aria-label="Type de contrat"></select>
+      <button class="btn btn-gold" type="submit">Rechercher</button>
+    </form>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><b id="statOffres">8</b><span>offres d’exemple (fictives)</span></div>
+    <div class="stat"><b id="statVilles">7</b><span>villes couvertes</span></div>
+    <div class="stat"><b id="statCand">0</b><span>candidature(s) sur cet appareil</span></div>
+  </div>
+
+  <section id="offres">
+    <div class="grid" id="jobGrid"></div>
+    <p id="empty" style="display:none;color:var(--muted);padding:18px 0">Aucune offre ne correspond à ces filtres — essaie un autre mot-clé ou élargis la recherche.</p>
+  </section>
+
+  <section class="section" id="candidat">
+    <h2>Espace candidat — démonstration sur cet appareil</h2>
+    <p class="sub">Crée ton mini-profil, définis une alerte secteur + ville : les offres correspondantes sont signalées dans le catalogue par la mention « Correspond à ton alerte ». Tes candidatures restent ici, sur cet appareil.</p>
+    <div class="two">
+      <div class="panel">
+        <h3>Mon mini-profil</h3>
+        <p>Nom, ville et domaine — utilisés uniquement pour cette démonstration.</p>
+        <div class="field"><label for="pNom">Nom</label><input id="pNom" placeholder="Ex. Awa Diarra"></div>
+        <div class="fieldrow">
+          <div class="field"><label for="pVille">Ville</label><select id="pVille"></select></div>
+          <div class="field"><label for="pDomaine">Domaine</label><select id="pDomaine"></select></div>
+        </div>
+        <button class="btn btn-navy" id="saveProfile" style="margin-top:14px">Enregistrer mon profil (sur cet appareil)</button>
+        <p class="note" id="profileState">Aucun profil enregistré pour le moment.</p>
+        <h3 style="margin-top:22px">Mon alerte emploi</h3>
+        <p>Une alerte = un secteur + une ville.</p>
+        <div class="fieldrow">
+          <div class="field"><label for="aSecteur">Secteur de l’alerte</label><select id="aSecteur"></select></div>
+          <div class="field"><label for="aVille">Ville de l’alerte</label><select id="aVille"></select></div>
+        </div>
+        <button class="btn btn-gold" id="saveAlert" style="margin-top:14px">Créer mon alerte</button>
+        <ul class="list" id="alertList"><li class="empty">Aucune alerte active.</li></ul>
+      </div>
+      <div class="panel">
+        <h3>Mes candidatures</h3>
+        <p>Clique sur « Postuler » sur une offre : ta candidature de démonstration apparaît ici. Elle n’est transmise à aucune entreprise.</p>
+        <ul class="list" id="myApps"><li class="empty">Aucune candidature pour le moment.</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="recruteur">
+    <h2>Espace recruteur — démonstration sur cet appareil</h2>
+    <p class="sub">Publie une offre : elle apparaît aussitôt dans le catalogue <strong>de cet appareil uniquement</strong> — les autres visiteurs ne la voient pas. C’est la limite assumée de la version de démonstration ; la version complète, avec comptes et serveur, la rend visible par tous les candidats.</p>
+    <div class="two">
+      <div class="panel">
+        <h3>Publier une offre</h3>
+        <div class="field"><label for="rTitle">Titre du poste</label><input id="rTitle" placeholder="Ex. Vendeur en boutique"></div>
+        <div class="field"><label for="rCompany">Entreprise (fictive pour la démo)</label><input id="rCompany" placeholder="Ex. Boutique Démo"></div>
+        <div class="fieldrow">
+          <div class="field"><label for="rVille">Ville</label><select id="rVille"></select></div>
+          <div class="field"><label for="rType">Type de contrat</label><select id="rType"></select></div>
+        </div>
+        <div class="field"><label for="rSecteur">Secteur</label><select id="rSecteur"></select></div>
+        <div class="field"><label for="rDesc">Description courte</label><textarea id="rDesc" rows="3" placeholder="Mission principale, profil recherché…"></textarea></div>
+        <button class="btn btn-gold" id="publishBtn" style="margin-top:14px;width:100%">Publier l’offre (sur cet appareil)</button>
+      </div>
+      <div class="panel">
+        <h3>Mes offres publiées</h3>
+        <p>Les offres que tu publies pendant cette démonstration, avec retrait possible à tout moment.</p>
+        <ul class="list" id="myJobs"><li class="empty">Aucune offre publiée pour le moment.</li></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap"><strong>Projet n°4 — IAM Code to Career • Douga dit Ibrahim Diarra</strong><br>
+  Emploi Mali, version de démonstration publique (page statique, hébergeable sur GitHub Pages). Entreprises et offres fictives, données de démonstration conservées sur cet appareil uniquement, le temps de la session ouverte.</div>
+</footer>
+
+<dialog id="dlg">
+  <div class="dialog-body">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+      <div><div class="company" id="dCompany"></div><h3 id="dTitle" style="margin:6px 0;font-size:24px;line-height:1.2"></h3></div>
+      <span class="demo-tag">Démo</span>
+    </div>
+    <div class="meta" id="dMeta" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    <p id="dAlert" style="margin-top:12px"></p>
+    <h4>Description</h4>
+    <p id="dDesc"></p>
+    <h4>Missions</h4>
+    <ul id="dMissions"></ul>
+    <h4>Profil recherché</h4>
+    <p id="dProfil"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+      <button class="btn btn-navy" id="applyBtn">Postuler</button>
+      <button class="btn btn-outline" id="closeDlg">Fermer</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var SECTEURS=["Informatique","Commerce/Vente","Santé","Éducation","BTP","Transport","Administration","Agriculture","Hôtellerie/Restauration"];
+var VILLES=["Bamako","Sikasso","Ségou","Kayes","Koutiala","Mopti","Gao"];
+var TYPES=["CDI","CDD","Stage","Intérim","Freelance"];
+
+var jobs=[
+ {id:1,title:"Développeur web junior",company:"Sahel Télécom",ville:"Bamako",secteur:"Informatique",type:"Freelance",salary:"Par mission",desc:"Entreprise fictive de services numériques. Tu construis et fais évoluer des sites et outils web pour des clients locaux, en HTML, CSS et JavaScript.",missions:["Intégrer des pages web adaptées au mobile","Corriger des bugs et tester les pages","Travailler avec un développeur senior"],profil:"Bases solides en HTML/CSS/JavaScript, curiosité, envie d’apprendre. Un portfolio ou des projets personnels sont un plus."},
+ {id:2,title:"Infirmier diplômé d’État",company:"Clinique de l’Espoir",ville:"Bamako",secteur:"Santé",type:"CDD",salary:"180 000 FCFA / mois",desc:"Clinique fictive de quartier. Tu assures les soins courants, le suivi des patients et l’accueil des familles, au sein d’une équipe soignante.",missions:["Soins et suivi des patients","Tenue des dossiers médicaux","Accueil et orientation des familles"],profil:"Diplôme d’infirmier, rigueur, sens de l’écoute et disponibilité pour des gardes tournantes."},
+ {id:3,title:"Enseignant de mathématiques",company:"Groupe Scolaire Les Lauriers",ville:"Sikasso",secteur:"Éducation",type:"CDI",salary:"À négocier",desc:"Groupe scolaire fictif. Tu enseignes les mathématiques au premier cycle du secondaire et tu participes à la vie pédagogique de l’école.",missions:["Préparer et dispenser les cours","Évaluer les élèves et suivre leurs progrès","Participer aux conseils de classe"],profil:"Licence en mathématiques ou équivalent, goût pour la transmission, patience avec les élèves."},
+ {id:4,title:"Commercial terrain",company:"Bamako Distribution",ville:"Ségou",secteur:"Commerce/Vente",type:"CDI",salary:"Fixe + commissions",desc:"Société fictive de distribution. Tu développes un portefeuille de boutiques partenaires à Ségou et dans les environs.",missions:["Prospecter de nouvelles boutiques","Prendre et suivre les commandes","Fidéliser les clients existants"],profil:"Aisance relationnelle, connaissance du terrain, permis moto apprécié. Première expérience en vente bienvenue."},
+ {id:5,title:"Maçon chef d’équipe",company:"Sahel BTP",ville:"Kayes",secteur:"BTP",type:"Intérim",salary:"Journalier selon grille",desc:"Entreprise fictive de construction. Tu encadres une petite équipe de maçons sur des chantiers de bâtiments à Kayes.",missions:["Lire les plans et organiser le chantier","Encadrer l’équipe au quotidien","Veiller à la sécurité et à la qualité"],profil:"Expérience confirmée en maçonnerie, capacité à diriger une équipe, respect strict des règles de sécurité."},
+ {id:6,title:"Chauffeur livreur",company:"Fleuve Transport",ville:"Mopti",secteur:"Transport",type:"CDD",salary:"120 000 FCFA / mois",desc:"Entreprise fictive de logistique. Tu assures des tournées de livraison quotidiennes à Mopti et dans les environs, véhicule fourni.",missions:["Effectuer les tournées de livraison","Vérifier les colis au départ et à l’arrivée","Entretenir couramment le véhicule"],profil:"Permis B en cours de validité, bonne connaissance des quartiers, ponctualité et sérieux."},
+ {id:7,title:"Assistant administratif — stage",company:"Sahel Services",ville:"Koutiala",secteur:"Administration",type:"Stage",salary:"Indemnité de stage",desc:"Cabinet fictif de services. Stage de découverte de 3 mois : accueil, classement, saisie et appui aux dossiers clients.",missions:["Accueillir et orienter les visiteurs","Classer et numériser les documents","Saisir les données dans les tableaux de suivi"],profil:"Étudiant ou jeune diplômé, maîtrise de base de Word et Excel, organisation et discrétion."},
+ {id:8,title:"Technicien agricole",company:"Sahel Agro",ville:"Gao",secteur:"Agriculture",type:"CDD",salary:"150 000 FCFA / mois",desc:"Exploitation fictive. Tu accompagnes les producteurs partenaires : suivi des cultures, conseils techniques et collecte de données de terrain.",missions:["Suivre les parcelles et les rendements","Conseiller les producteurs partenaires","Remonter les données de terrain"],profil:"Formation agricole, goût du terrain, capacité à se déplacer en zone rurale."}
+];
+
+var profile=null;
+var alerts=[];
+var myApps=[];
+var myJobIds=[];
+var currentJob=null;
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function fillSelect(id,items,placeholder){
+  var el=document.getElementById(id);
+  el.innerHTML=(placeholder?'<option value="">'+esc(placeholder)+'</option>':'')+items.map(function(i){return '<option>'+esc(i)+'</option>'}).join('');
+}
+fillSelect('fSecteur',SECTEURS,'Tous les secteurs');
+fillSelect('fVille',VILLES,'Toutes les villes');
+fillSelect('fType',TYPES,'Tous les contrats');
+fillSelect('pVille',VILLES); fillSelect('pDomaine',SECTEURS);
+fillSelect('aSecteur',SECTEURS); fillSelect('aVille',VILLES);
+fillSelect('rVille',VILLES); fillSelect('rType',TYPES); fillSelect('rSecteur',SECTEURS);
+
+function matchesAlert(j){return alerts.some(function(a){return a.secteur===j.secteur&&a.ville===j.ville})}
+
+function render(){
+  var q=document.getElementById('q').value.trim().toLowerCase();
+  var v=document.getElementById('fVille').value;
+  var s=document.getElementById('fSecteur').value;
+  var t=document.getElementById('fType').value;
+  var list=jobs.filter(function(j){
+    return (!q||(j.title+" "+j.company+" "+j.secteur+" "+j.ville).toLowerCase().indexOf(q)>-1)
+      &&(!v||j.ville===v)&&(!s||j.secteur===s)&&(!t||j.type===t);
+  });
+  document.getElementById('jobGrid').innerHTML=list.map(function(j){
+    var m=matchesAlert(j);
+    return '<article class="card'+(m?' match':'')+'">'
+      +'<div class="card-top"><span class="company">'+esc(j.company)+'</span><span class="demo-tag">Démo</span></div>'
+      +'<h3>'+esc(j.title)+'</h3>'
+      +'<div class="meta"><span class="pill">'+esc(j.ville)+'</span><span class="pill">'+esc(j.type)+'</span><span class="pill">'+esc(j.secteur)+'</span></div>'
+      +(m?'<span class="alert-tag">Correspond à ton alerte</span>':'')
+      +'<p>'+esc(j.desc)+'</p>'
+      +'<div class="card-foot"><span class="salary">'+esc(j.salary)+'</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline" onclick="openJob('+j.id+')">Voir l\u2019offre</button><button class="btn btn-navy" onclick="applyTo('+j.id+')">Postuler</button></span></div>'
+      +'</article>';
+  }).join('');
+  document.getElementById('empty').style.display=list.length?'none':'block';
+  document.getElementById('statOffres').textContent=jobs.length;
+  var villes={}; jobs.forEach(function(j){villes[j.ville]=1});
+  document.getElementById('statVilles').textContent=Object.keys(villes).length;
+  document.getElementById('statCand').textContent=myApps.length;
+  renderApps(); renderMyJobs(); renderAlerts();
+}
+
+function openJob(id){
+  currentJob=jobs.find(function(j){return j.id===id}); if(!currentJob)return;
+  document.getElementById('dCompany').textContent=currentJob.company;
+  document.getElementById('dTitle').textContent=currentJob.title;
+  document.getElementById('dMeta').innerHTML='<span class="pill">'+esc(currentJob.ville)+'</span><span class="pill">'+esc(currentJob.type)+'</span><span class="pill">'+esc(currentJob.secteur)+'</span><span class="pill">'+esc(currentJob.salary)+'</span>';
+  document.getElementById('dAlert').innerHTML=matchesAlert(currentJob)?'<span class="alert-tag">Correspond à ton alerte</span>':'';
+  document.getElementById('dDesc').textContent=currentJob.desc;
+  document.getElementById('dMissions').innerHTML=currentJob.missions.map(function(m){return '<li>'+esc(m)+'</li>'}).join('');
+  document.getElementById('dProfil').textContent=currentJob.profil;
+  var b=document.getElementById('applyBtn');
+  var done=myApps.some(function(a){return a.id===id});
+  b.textContent=done?'Candidature déjà envoyée (démo)':'Postuler';
+  b.disabled=done;
+  document.getElementById('dlg').showModal();
+}
+
+function applyTo(id){
+  var j=jobs.find(function(x){return x.id===id}); if(!j)return;
+  if(myApps.some(function(a){return a.id===id})){toast('Tu as déjà postulé à cette offre (démo).');return}
+  myApps.push({id:j.id,title:j.title,company:j.company});
+  render();
+  toast('Candidature de démonstration enregistrée sur cet appareil : '+j.title);
+  document.getElementById('candidat').scrollIntoView({behavior:'smooth'});
+}
+
+function renderApps(){
+  var ul=document.getElementById('myApps');
+  if(!myApps.length){ul.innerHTML='<li class="empty">Aucune candidature pour le moment.</li>';return}
+  ul.innerHTML=myApps.map(function(a){
+    return '<li><span><strong>'+esc(a.title)+'</strong><br><span style="color:var(--muted)">'+esc(a.company)+'</span></span><span class="status">Envoyée (démo)</span></li>';
+  }).join('');
+}
+
+function renderAlerts(){
+  var ul=document.getElementById('alertList');
+  if(!alerts.length){ul.innerHTML='<li class="empty">Aucune alerte active.</li>';return}
+  ul.innerHTML=alerts.map(function(a,i){
+    var n=jobs.filter(function(j){return j.secteur===a.secteur&&j.ville===a.ville}).length;
+    return '<li><span><strong>'+esc(a.secteur)+' — '+esc(a.ville)+'</strong><br><span style="color:var(--muted)">'+n+' offre(s) correspondante(s) dans le catalogue</span></span><button class="btn btn-danger" onclick="removeAlert('+i+')">Retirer</button></li>';
+  }).join('');
+}
+function removeAlert(i){alerts.splice(i,1);render();toast('Alerte retirée.')}
+
+function renderMyJobs(){
+  var ul=document.getElementById('myJobs');
+  var mine=jobs.filter(function(j){return myJobIds.indexOf(j.id)>-1});
+  if(!mine.length){ul.innerHTML='<li class="empty">Aucune offre publiée pour le moment.</li>';return}
+  ul.innerHTML=mine.map(function(j){
+    return '<li><span><strong>'+esc(j.title)+'</strong><br><span style="color:var(--muted)">'+esc(j.company)+' · '+esc(j.ville)+' · '+esc(j.type)+'</span></span><button class="btn btn-danger" onclick="removeJob('+j.id+')">Retirer</button></li>';
+  }).join('');
+}
+function removeJob(id){
+  jobs=jobs.filter(function(j){return j.id!==id});
+  myJobIds=myJobIds.filter(function(x){return x!==id});
+  myApps=myApps.filter(function(a){return a.id!==id});
+  render(); toast('Offre retirée du catalogue de cet appareil.');
+}
+
+function toast(msg){
+  var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},3000);
+}
+
+document.getElementById('searchForm').addEventListener('submit',function(e){e.preventDefault();render()});
+['q','fVille','fSecteur','fType'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',render);
+  document.getElementById(id).addEventListener('change',render);
+});
+document.getElementById('closeDlg').addEventListener('click',function(){document.getElementById('dlg').close()});
+document.getElementById('applyBtn').addEventListener('click',function(){
+  if(!currentJob)return; var id=currentJob.id;
+  document.getElementById('dlg').close(); applyTo(id);
+});
+document.getElementById('saveProfile').addEventListener('click',function(){
+  var nom=document.getElementById('pNom').value.trim();
+  if(!nom){toast('Ajoute ton nom pour enregistrer le profil.');return}
+  profile={nom:nom,ville:document.getElementById('pVille').value,domaine:document.getElementById('pDomaine').value};
+  document.getElementById('profileState').textContent='Profil enregistré sur cet appareil : '+profile.nom+' · '+profile.ville+' · '+profile.domaine+'. Astuce : crée une alerte avec le même domaine et la même ville pour repérer les offres qui te correspondent.';
+  toast('Profil enregistré (démonstration, sur cet appareil).');
+});
+document.getElementById('saveAlert').addEventListener('click',function(){
+  var a={secteur:document.getElementById('aSecteur').value,ville:document.getElementById('aVille').value};
+  if(alerts.some(function(x){return x.secteur===a.secteur&&x.ville===a.ville})){toast('Cette alerte existe déjà.');return}
+  alerts.push(a); render();
+  toast('Alerte créée : '+a.secteur+' à '+a.ville+'. Les offres correspondantes sont signalées dans le catalogue.');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('publishBtn').addEventListener('click',function(){
+  var t=document.getElementById('rTitle').value.trim();
+  var c=document.getElementById('rCompany').value.trim();
+  var d=document.getElementById('rDesc').value.trim();
+  if(!t||!c){toast('Ajoute au moins un titre de poste et une entreprise.');return}
+  var j={id:Date.now(),title:t,company:c,ville:document.getElementById('rVille').value,secteur:document.getElementById('rSecteur').value,type:document.getElementById('rType').value,salary:'À négocier',desc:d||'Offre publiée pendant cette démonstration, sur cet appareil uniquement.',missions:['Missions définies par le recruteur (démonstration)'],profil:'Profil défini par le recruteur (démonstration).'};
+  jobs.unshift(j); myJobIds.push(j.id); render();
+  toast('Offre publiée dans le catalogue de cet appareil.');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+render();
+</script>
+</body>
+</html>
